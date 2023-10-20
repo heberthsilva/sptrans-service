@@ -1,0 +1,231 @@
+<?xml version="1.0" ?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://service.sptransWS.digicon.com.br/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="PedidoCreditoService" targetNamespace="http://service.sptransWS.digicon.com.br/">
+<wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.sptransWS.digicon.com.br/" elementFormDefault="unqualified" targetNamespace="http://service.sptransWS.digicon.com.br/" version="1.0">
+  <xs:element name="cancelarPedido" type="tns:cancelarPedido"></xs:element>
+  <xs:element name="cancelarPedidoResponse" type="tns:cancelarPedidoResponse"></xs:element>
+  <xs:element name="confirmarPedido" type="tns:confirmarPedido"></xs:element>
+  <xs:element name="confirmarPedidoResponse" type="tns:confirmarPedidoResponse"></xs:element>
+  <xs:element name="consultarCartao" type="tns:consultarCartao"></xs:element>
+  <xs:element name="consultarCartaoResponse" type="tns:consultarCartaoResponse"></xs:element>
+  <xs:element name="gerarPedido" type="tns:gerarPedido"></xs:element>
+  <xs:element name="gerarPedidoResponse" type="tns:gerarPedidoResponse"></xs:element>
+
+  <xs:complexType name="consultarCartao">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="login" type="tns:keyAutenticacaoIn"></xs:element>
+      <xs:element minOccurs="0" name="numeroCartao" type="xs:long"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="keyAutenticacaoIn">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="senha" type="xs:string"></xs:element>
+      <xs:element minOccurs="0" name="usuario" type="xs:string"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="consultarCartaoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:consultarCartaoOut"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="consultarCartaoOut">
+    <xs:complexContent>
+      <xs:extension base="tns:mensagemOut">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="tiposCredito" nillable="true" type="tns:tipoCreditoOut"></xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="mensagemOut">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codigoRetorno" type="xs:int"></xs:element>
+      <xs:element minOccurs="0" name="mensagem" type="xs:string"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="tipoCreditoOut">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codigo" type="xs:int"></xs:element>
+      <xs:element minOccurs="0" name="descricao" type="xs:string"></xs:element>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="produtos" nillable="true" type="tns:produtoOut"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="produtoOut">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codigo" type="xs:int"></xs:element>
+      <xs:element minOccurs="0" name="descricao" type="xs:string"></xs:element>
+      <xs:element minOccurs="0" name="qtdeMaxima" type="xs:decimal"></xs:element>
+      <xs:element minOccurs="0" name="qtdeMinima" type="xs:decimal"></xs:element>
+      <xs:element minOccurs="0" name="valorUnitario" type="xs:decimal"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="gerarPedido">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="login" type="tns:keyAutenticacaoIn"></xs:element>
+      <xs:element minOccurs="0" name="gerarPedido" type="tns:gerarPedidoIn"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="gerarPedidoIn">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codigoProduto" type="xs:int"></xs:element>
+      <xs:element minOccurs="0" name="codigoTipoCredito" type="xs:int"></xs:element>
+      <xs:element minOccurs="0" name="numeroLogicoCartao" type="xs:long"></xs:element>
+      <xs:element minOccurs="0" name="quantidade" type="xs:int"></xs:element>
+      <xs:element minOccurs="0" name="valorTotal" type="xs:decimal"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="gerarPedidoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:gerarPedidoOut"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="gerarPedidoOut">
+    <xs:complexContent>
+      <xs:extension base="tns:mensagemOut">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="numeroPedido" type="xs:long"></xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="confirmarPedido">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="login" type="tns:keyAutenticacaoIn"></xs:element>
+      <xs:element minOccurs="0" name="numeroPedido" type="xs:long"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="confirmarPedidoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:mensagemOut"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="cancelarPedido">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="login" type="tns:keyAutenticacaoIn"></xs:element>
+      <xs:element minOccurs="0" name="numeroPedido" type="xs:long"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="cancelarPedidoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:mensagemOut"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="cancelarPedido">
+    <wsdl:part element="tns:cancelarPedido" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="gerarPedidoResponse">
+    <wsdl:part element="tns:gerarPedidoResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="gerarPedido">
+    <wsdl:part element="tns:gerarPedido" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="consultarCartaoResponse">
+    <wsdl:part element="tns:consultarCartaoResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="consultarCartao">
+    <wsdl:part element="tns:consultarCartao" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="confirmarPedido">
+    <wsdl:part element="tns:confirmarPedido" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cancelarPedidoResponse">
+    <wsdl:part element="tns:cancelarPedidoResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="confirmarPedidoResponse">
+    <wsdl:part element="tns:confirmarPedidoResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="PedidoCreditoService">
+    <wsdl:operation name="consultarCartao">
+      <wsdl:input message="tns:consultarCartao" name="consultarCartao">
+    </wsdl:input>
+      <wsdl:output message="tns:consultarCartaoResponse" name="consultarCartaoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="gerarPedido">
+      <wsdl:input message="tns:gerarPedido" name="gerarPedido">
+    </wsdl:input>
+      <wsdl:output message="tns:gerarPedidoResponse" name="gerarPedidoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="confirmarPedido">
+      <wsdl:input message="tns:confirmarPedido" name="confirmarPedido">
+    </wsdl:input>
+      <wsdl:output message="tns:confirmarPedidoResponse" name="confirmarPedidoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="cancelarPedido">
+      <wsdl:input message="tns:cancelarPedido" name="cancelarPedido">
+    </wsdl:input>
+      <wsdl:output message="tns:cancelarPedidoResponse" name="cancelarPedidoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PedidoCreditoServiceSoapBinding" type="tns:PedidoCreditoService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"></soap:binding>
+    <wsdl:operation name="consultarCartao">
+      <soap:operation soapAction="" style="document"></soap:operation>
+      <wsdl:input name="consultarCartao">
+        <soap:body use="literal"></soap:body>
+      </wsdl:input>
+      <wsdl:output name="consultarCartaoResponse">
+        <soap:body use="literal"></soap:body>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="cancelarPedido">
+      <soap:operation soapAction="" style="document"></soap:operation>
+      <wsdl:input name="cancelarPedido">
+        <soap:body use="literal"></soap:body>
+      </wsdl:input>
+      <wsdl:output name="cancelarPedidoResponse">
+        <soap:body use="literal"></soap:body>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="confirmarPedido">
+      <soap:operation soapAction="" style="document"></soap:operation>
+      <wsdl:input name="confirmarPedido">
+        <soap:body use="literal"></soap:body>
+      </wsdl:input>
+      <wsdl:output name="confirmarPedidoResponse">
+        <soap:body use="literal"></soap:body>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="gerarPedido">
+      <soap:operation soapAction="" style="document"></soap:operation>
+      <wsdl:input name="gerarPedido">
+        <soap:body use="literal"></soap:body>
+      </wsdl:input>
+      <wsdl:output name="gerarPedidoResponse">
+        <soap:body use="literal"></soap:body>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PedidoCreditoService">
+    <wsdl:port binding="tns:PedidoCreditoServiceSoapBinding" name="PedidoCreditoServicePort">
+      <soap:address location="http://proxypass-tivit-hom.eastus.cloudapp.azure.com:8081/sptransWS/PedidoCreditoService"></soap:address>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
